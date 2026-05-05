@@ -8,17 +8,26 @@ import ScrollReveal from "./ScrollReveal";
 
 const projects = [
   {
-    title: "MERN Todo App",
+    title: "Tiles-Gallery",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDxjeoNEz8hYf9mEolUS34VLMmoyje_5_1BiYRli0Q8zKzk3lcjeW3iKzcosD3htJsMvoNhulFazNqS-qUmryUHbx--k5ELFuQxY7nXF9tnsB_hYqME_muSAgSGguX9Gizcp3SoN93eSXLelzX_mn9NFN1VEXZ_a1aiDm--Y8xnhXrv5MdqHP3P6ySNESaiH3DznVf8lB8_P7NsoB7bAZjMZ_iWr86jTifIBMnw17WnYAYAocpkx0P81Or626ybXyH7mdB_6sdxxFk",
     tags: ["MongoDB", "Express", "React"],
     desc: "A productivity powerhouse featuring real-time synchronization, drag-and-drop task management, and advanced categorization using the MERN stack.",
+    link:"https://tiles-gallery-murex.vercel.app/"
   },
   {
-    title: "E-Commerce Demo",
+    title: "Dragon-News",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDYIVMAmS7e3yvTxG7AaBv-Dw0Ww-s60CqO8IWLZK0ztsgXhmPpgUEFPF6sooIARUCYj4Cz4ENHxpsPjlYnKCcBFPZkRMjk2HHZr0sixeujkBLpFCaU6LaEz7F-eLegvy5Jwk7kTZZuT-Mzb_3b0VvqhM3CMlKXFN20Zd-nvp3hsfAQ2wmxcKhC5-4ri2bTd6-0N7R776da8lOBQ91L_BrIhJMIzsz8MMSCa3AvI-XE0LAniM8H-c9kbpH-2asLgmZeTvmcccFfhIE",
     tags: ["Next.js", "Stripe", "Tailwind"],
     desc: "A high-conversion retail platform with dynamic product filtering, seamless Stripe checkout, and optimized mobile user experience.",
+    link:"https://dragon-news-self.vercel.app/"
   },
+  {
+    title: "Keen-keeper",
+    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDYIVMAmS7e3yvTxG7AaBv-Dw0Ww-s60CqO8IWLZK0ztsgXhmPpgUEFPF6sooIARUCYj4Cz4ENHxpsPjlYnKCcBFPZkRMjk2HHZr0sixeujkBLpFCaU6LaEz7F-eLegvy5Jwk7kTZZuT-Mzb_3b0VvqhM3CMlKXFN20Zd-nvp3hsfAQ2wmxcKhC5-4ri2bTd6-0N7R776da8lOBQ91L_BrIhJMIzsz8MMSCa3AvI-XE0LAniM8H-c9kbpH-2asLgmZeTvmcccFfhIE",
+    tags: ["Next.js", "Stripe", "Tailwind"],
+    desc: "A high-conversion retail platform with dynamic product filtering, seamless Stripe checkout, and optimized mobile user experience.",
+    link:"keen-keeper-app.surge.sh"
+  }
 ];
 
 const Projects = () => {
@@ -109,14 +118,14 @@ const Projects = () => {
               <div className="flex gap-4">
                 <a
                   className="text-primary font-bold inline-flex items-center gap-2 hover:gap-4 transition-all"
-                  href="#"
+                  href={project.link}
                 >
                   Live Demo{" "}
                   <span className="material-symbols-outlined">arrow_forward</span>
                 </a>
                 <a
                   className="text-on-surface-variant font-bold inline-flex items-center gap-2"
-                  href="#"
+                  href={project.link}
                 >
                   GitHub Repository
                 </a>
