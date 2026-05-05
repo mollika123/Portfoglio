@@ -5,10 +5,10 @@ const Footer = () => {
     <footer className="w-full py-12 mt-40 border-t border-white/10 bg-[#0a0a0a]">
       <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
         <span className="text-xl font-black text-white font-headline-lg">
-          Sajid Yaqub
+        Mollika Akter
         </span>
         <p className="text-neutral-500 font-headline-md text-sm">
-          © 2024 Sajid Yaqub. All rights reserved.
+          © 2024 Mollika Akter. All rights reserved.
         </p>
         <div className="flex gap-8">
           <a

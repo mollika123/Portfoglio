@@ -17,7 +17,7 @@ const Testimonials = () => {
               </span>
             ))}
           </div>
-          <p className="font-display-xl text-headline-lg italic">
+          <p className="font-display-xl text-2xl italic">
             "Sajid transformed our digital presence from a standard landing page
             to a high-performance conversion engine. His attention to detail in UI
             design is unparalleled."

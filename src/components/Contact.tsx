@@ -20,7 +20,7 @@ const Contact = () => {
               </div>
               <div>
                 <p className="text-on-surface-variant text-sm">Email Me</p>
-                <p className="text-headline-md text-lg">sajid@portfolio.com</p>
+                <p className="text-headline-md text-lg">aktermollika49@gmail.com</p>
               </div>
             </div>
             <div className="flex items-center gap-6">
@@ -40,7 +40,7 @@ const Contact = () => {
               </div>
               <div>
                 <p className="text-on-surface-variant text-sm">Location</p>
-                <p className="text-headline-md text-lg">Dubai, UAE</p>
+                <p className="text-headline-md text-lg">Mestre,Italy</p>
               </div>
             </div>
           </div>
@@ -54,7 +54,7 @@ const Contact = () => {
                 </label>
                 <input
                   className="w-full bg-surface-container-high/50 border border-outline-variant rounded-xl px-4 py-3 focus:border-primary focus:ring-0 transition-all text-on-surface"
-                  placeholder="John Doe"
+                  placeholder="Enter Your Name"
                   type="text"
                 />
               </div>
@@ -64,7 +64,7 @@ const Contact = () => {
                 </label>
                 <input
                   className="w-full bg-surface-container-high/50 border border-outline-variant rounded-xl px-4 py-3 focus:border-primary focus:ring-0 transition-all text-on-surface"
-                  placeholder="john@company.com"
+                  placeholder="Enter Your Email "
                   type="email"
                 />
               </div>
@@ -76,7 +76,7 @@ const Contact = () => {
                 </label>
                 <input
                   className="w-full bg-surface-container-high/50 border border-outline-variant rounded-xl px-4 py-3 focus:border-primary focus:ring-0 transition-all text-on-surface"
-                  placeholder="+1..."
+                  placeholder="Enter Your Number"
                   type="tel"
                 />
               </div>
@@ -86,7 +86,7 @@ const Contact = () => {
                 </label>
                 <input
                   className="w-full bg-surface-container-high/50 border border-outline-variant rounded-xl px-4 py-3 focus:border-primary focus:ring-0 transition-all text-on-surface"
-                  placeholder="Acme Inc."
+                  placeholder="Enter Your Company"
                   type="text"
                 />
               </div>

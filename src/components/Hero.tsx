@@ -83,16 +83,16 @@ const Hero = () => {
           </span>
           AVAILABLE FOR PROJECTS
         </motion.div>
-        <motion.h1 variants={itemVariants} className="text-display-xl text-on-surface">
+        <motion.h1 variants={itemVariants} className="text-3xl text-on-surface">
          Mollika Akter //{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-container to-tertiary-container">
             Full-Stack Engineer
           </span>
         </motion.h1>
-        <motion.p variants={itemVariants} className="text-body-lg text-on-surface-variant max-w-xl">
+        <motion.p variants={itemVariants} className="text-2xl text-on-surface-variant max-w-xl">
           I am a passionate Frontend Developer focused on building fast, responsive, and visually engaging web experiences. I specialize in modern technologies like React, Next.js, and Tailwind CSS, crafting interfaces that are not only functional but also intuitive and user-friendly.
 
-  I enjoy turning complex ideas into clean, interactive designs with smooth animations and attention to detail. From pixel-perfect UI to performance optimization, I aim to deliver products that feel seamless and modern.
+  
         </motion.p>
         <motion.div variants={itemVariants} className="flex flex-wrap gap-4">
           <motion.button
@@ -125,7 +125,7 @@ const Hero = () => {
           <img
             alt="Sajid Yaqub"
             className="w-full h-full object-cover rounded-2xl grayscale hover:grayscale-0 transition-all duration-700"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWzTA1BnOfMx2S12diJdZY1BdQqg4rAzqcNNwiVurg-dL_c3zzV6fHISGyxYm64O1RgtT9ytqcvwvUbOw2Tw3yTsaxUtTPW2LIIsAot6vC6xgONFkY9vKFyVO6ZqBwJyh4w9k80PMj6rNgCxxSWGpC1o14b3XQxNWbL3yoWSijfPx0GNmVD_fDHMSqswoSnoI-q7aChIRwqkz2zRL71jsmtFfdEjY9bOvb33vpeZwEx7lfwxq8htFggc7HLBCQgEMNf_jl4Cwrm8s"
+            src='/pic.png'
           />
         </div>
         <div className="absolute -top-10 -right-10 w-48 h-48 bg-tertiary-container/20 blur-[80px] rounded-full"></div>
