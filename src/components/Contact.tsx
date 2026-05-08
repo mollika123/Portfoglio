@@ -5,10 +5,10 @@ const Contact = () => {
     <section className="py-40" id="contact">
       <div className="grid md:grid-cols-2 gap-20">
         <div className="space-y-10">
-          <h2 className="text-headline-lg">
+          <h2 className="text-3xl">
             Let's build something <span className="text-primary">extraordinary</span>.
           </h2>
-          <p className="text-body-lg text-on-surface-variant">
+          <p className="text-xl-on-surface-variant">
             Ready to start your next project? Get in touch today for a free
             consultation and let's discuss how I can help bring your vision to
             life.
@@ -20,7 +20,7 @@ const Contact = () => {
               </div>
               <div>
                 <p className="text-on-surface-variant text-sm">Email Me</p>
-                <p className="text-headline-md text-lg">aktermollika49@gmail.com</p>
+                <p className="text-xl">aktermollika49@gmail.com</p>
               </div>
             </div>
             <div className="flex items-center gap-6">
@@ -29,7 +29,7 @@ const Contact = () => {
               </div>
               <div>
                 <p className="text-on-surface-variant text-sm">Call Me</p>
-                <p className="text-headline-md text-lg">+1 (555) 000-0000</p>
+                <p className="text-xl">+1 (555) 000-0000</p>
               </div>
             </div>
             <div className="flex items-center gap-6">
@@ -40,7 +40,7 @@ const Contact = () => {
               </div>
               <div>
                 <p className="text-on-surface-variant text-sm">Location</p>
-                <p className="text-headline-md text-lg">Mestre,Italy</p>
+                <p className="text-xl">Mestre,Italy</p>
               </div>
             </div>
           </div>
@@ -101,7 +101,7 @@ const Contact = () => {
                 rows={4}
               ></textarea>
             </div>
-            <button className="w-full bg-primary-container text-on-primary-container py-4 rounded-xl text-headline-md text-sm hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_20px_rgba(139,92,246,0.3)]">
+            <button className="w-full bg-primary-container text-on-primary-container py-4 rounded-xl text-xl hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_20px_rgba(139,92,246,0.3)]">
               Send Message
             </button>
           </form>

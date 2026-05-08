@@ -61,14 +61,16 @@ const About = () => {
               seamless user journey.
             </p>
             <div className="pt-4">
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-3 bg-surface-container-high border border-outline-variant px-10 py-5 rounded-2xl text-label-md hover:bg-surface-variant transition-all shadow-xl shadow-black/20"
-              >
-                <span className="material-symbols-outlined">download</span> 
-                Download Resume
-              </motion.button>
+             <motion.a
+  href="/MOLLIKA AKTER.pdf"
+  download
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+  className="inline-flex items-center gap-3 bg-surface-container-high border border-outline-variant px-10 py-5 rounded-2xl text-label-md hover:bg-surface-variant transition-all shadow-xl shadow-black/20"
+>
+  <span className="material-symbols-outlined">download</span>
+  Download Resume
+</motion.a>
             </div>
           </ScrollReveal>
         </div>
