@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -15,7 +16,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Sajid Yaqub | Full-Stack Engineer",
+  title: "Mollika Akter | Full-Stack Engineer",
   description: "A Full-Stack Developer & UI/UX enthusiast crafting high-performance, visually stunning digital experiences.",
 };
 
@@ -27,7 +28,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceGrotesk.variable} h-full antialiased dark`}
+      className={`${inter.variable} ${spaceGrotesk.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <head>
         <link
@@ -35,15 +37,15 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-full flex flex-col bg-background text-on-surface">
-        <SmoothScroll>
-          <CustomCursor />
-          <div className="mesh-gradient"></div>
-          {children}
-        </SmoothScroll>
+      <body className="min-h-full flex flex-col bg-background text-on-surface transition-colors duration-300">
+        <ThemeProvider>
+          <SmoothScroll>
+            <CustomCursor />
+            <div className="mesh-gradient"></div>
+            {children}
+          </SmoothScroll>
+        </ThemeProvider>
       </body>
     </html>
   );
 }
-
-
