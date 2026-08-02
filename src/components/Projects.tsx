@@ -263,8 +263,8 @@ const Projects = () => {
       contribution:
         "Conceptualized and coded the entire user interface and user flows. Optimized key Web Vitals, reducing Cumulative Layout Shift (CLS) to 0.01 and increasing Lighthouse performance rating to 98/100.",
       mockup: <KickHubMockup />,
-      link: "https://kickhub.dev",
-      github: "https://github.com/mollika123/kickhub",
+      link: "https://shopping-cart-flame-tau.vercel.app/",
+      github: "https://github.com/mollika123/shopping-cart",
       glowColor: "rgba(168, 85, 247, 0.25)",
       textColor: "text-[#a78bfa]"
     },
@@ -281,8 +281,8 @@ const Projects = () => {
       contribution:
         "Designed and built the responsive React node scheduler. Integrated travel estimation APIs and coded the custom dashboard mapping grid utilizing interactive vector tracking.",
       mockup: <SmartTravelMockup />,
-      link: "https://smarttravel.dev",
-      github: "https://github.com/mollika123/smarttravel",
+      link: "https://smart-travel-delta.vercel.app/",
+      github: "https://github.com/mollika123/smart-travel",
       glowColor: "rgba(6, 182, 212, 0.25)",
       textColor: "text-cyan-400"
     },
@@ -299,8 +299,8 @@ const Projects = () => {
       contribution:
         "Drafted the pixel-perfect styling guidelines in Tailwind CSS. Configured real-time property sync databases using Firebase and animated layout transitions using Framer Motion.",
       mockup: <RentNestMockup />,
-      link: "https://rentnest.dev",
-      github: "https://github.com/mollika123/rentnest",
+      link: "https://rentnest-pi.vercel.app/",
+      github: "https://github.com/mollika123/RentNest",
       glowColor: "rgba(216, 180, 254, 0.25)",
       textColor: "text-purple-300"
     }
