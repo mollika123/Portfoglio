@@ -16,8 +16,18 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Mollika Akter | Full-Stack Engineer",
-  description: "A Full-Stack Developer & UI/UX enthusiast crafting high-performance, visually stunning digital experiences.",
+  title: "Mollika Akter — Frontend Developer",
+  description: "Building modern, scalable, and beautiful web experiences. Explore the portfolio of Mollika Akter, a senior frontend engineer specializing in Next.js, React, and TypeScript.",
+  keywords: ["Mollika Akter", "Frontend Developer", "Senior Frontend Engineer", "Next.js Developer", "React Developer", "UI/UX Developer", "Web Developer Portfolio"],
+  authors: [{ name: "Mollika Akter" }],
+  openGraph: {
+    title: "Mollika Akter — Frontend Developer",
+    description: "Building modern, scalable, and beautiful web experiences.",
+    url: "https://mollika.dev",
+    siteName: "Mollika Akter Portfolio",
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -42,6 +52,7 @@ export default function RootLayout({
           <SmoothScroll>
             <CustomCursor />
             <div className="mesh-gradient"></div>
+            <div className="grid-overlay"></div>
             {children}
           </SmoothScroll>
         </ThemeProvider>

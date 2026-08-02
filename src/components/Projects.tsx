@@ -1,246 +1,465 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiExternalLink, FiGithub, FiArrowRight, FiCode, FiLayers } from "react-icons/fi";
+import React, { useState, useRef } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { FiExternalLink, FiGithub, FiGlobe, FiCheck } from "react-icons/fi";
+import { FaHeart, FaRegHeart, FaMapMarkerAlt, FaStar, FaPlane, FaUtensils, FaCamera } from "react-icons/fa";
 import ScrollReveal from "./ScrollReveal";
+import Image from "next/image";
 
-const categories = ["All", "Full-Stack", "Frontend", "Next.js"];
+// ==========================================
+// 1. 3D TILT EFFECT CARD WRAPPER
+// ==========================================
+interface TiltCardProps {
+  children: React.ReactNode;
+  className?: string;
+}
 
-const projects = [
-  {
+const TiltCard = ({ children, className = "" }: TiltCardProps) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
 
-    id: "01",
-    title: "Tiles-Gallery",
-    subtitle: "MERN Stack E-Commerce & Gallery Platform",
-    category: "Full-Stack",
-    image: "https://i.ibb.co/JWs6pd2q/Beige-New-Product-Mockup-Now-Available-Facebook-Post.png",
-    tags: ["MongoDB", "Express", "React", "Node.js", "Tailwind CSS"],
-    desc: "A productivity powerhouse & interactive gallery featuring real-time data synchronization, drag-and-drop management, dynamic categorization, and optimized full-stack architecture.",
-    link: "",
-    github: "https://github.com",
-    accent: "from-purple-500 to-indigo-600",
-    featured: true,
-  },
-  {
-    id: "02",
-    title: "shopping cart",
-    subtitle: "MERN Stack E-Commerce & Gallery Platform",
-    category: "Full-Stack",
-    image: "https://i.ibb.co/v6f2rVMq/Beige-New-Product-Mockup-Now-Available-Facebook-Post-1.png",
-    tags: ["MongoDB", "Express","Typescript", "React", "Node.js", "Tailwind CSS"],
- desc: `KICKHUB is a modern and responsive footwear shopping platform built with Next.js, TypeScript, Tailwind CSS, and modern UI libraries.
-Users can explore shoes, view product details, manage cart items, and experience a smooth shopping interface.`,
-    link: "shopping-cart-flame-tau.vercel.app",
-    github: "https://github.com",
-    accent: "from-purple-500 to-indigo-600",
-    featured: true,
-  },
- 
-  {
-    id: "05",
-    title: "RentNest",
-    subtitle: "Task & Note Management Web Application",
-    category: "Frontend",
-    image: "https://i.ibb.co/67JLGq5j/Beige-New-Product-Mockup-Now-Available-Facebook-Post-2.png",
-    tags: ["React", "Firebase", "Tailwind CSS", "JavaScript"],
-    desc: "An intuitive web application for keeping track of daily tasks, notes, and productivity goals with seamless local persistence and interactive dashboard UI.",
-    link: "https://rentnest-pi.vercel.app/",
-    github: "https://github.com",
-    accent: "from-cyan-500 to-blue-600",
-    featured: true,
-  },
-  {
-    id: "06",
-    title: "StudyNook",
-    subtitle: "Task & Note Management Web Application",
-    category: "Frontend",
-    image: "https://i.ibb.co/8LF2DLXC/Beige-New-Product-Mockup-Now-Available-Facebook-Post-4.png",
-    tags: ["React", "Firebase", "Tailwind CSS", "JavaScript"],
-    desc: "An intuitive web application for keeping track of daily tasks, notes, and productivity goals with seamless local persistence and interactive dashboard UI.",
-    link: "https://rentnest-pi.vercel.app/",
-    github: "https://github.com",
-    accent: "from-cyan-500 to-blue-600",
-    featured: true,
-  },
-];
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["8deg", "-8deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-8deg", "8deg"]);
 
-const Projects = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const mouseX = (e.clientX - rect.left) / rect.width - 0.5;
+    const mouseY = (e.clientY - rect.top) / rect.height - 0.5;
+    x.set(mouseX);
+    y.set(mouseY);
+  };
 
-  const filteredProjects =
-    activeCategory === "All"
-      ? projects
-      : projects.filter((p) => p.category === activeCategory);
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   return (
-    <section className="py-36 relative" id="projects">
-      {/* Background Decorative Gradient Light */}
-      <div className="absolute bottom-1/4 right-10 w-[500px] h-[350px] bg-purple-600/10 dark:bg-purple-500/10 blur-[130px] rounded-full pointer-events-none -z-10" />
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+      }}
+      className={`transition-all duration-200 ${className}`}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
-      {/* Section Header */}
-      <ScrollReveal>
-        <div className="flex flex-col items-center text-center mb-16 space-y-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-600 dark:text-purple-400 text-xs font-semibold tracking-wider uppercase"
-          >
-            <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
-            Portfolio Showcase
-          </motion.div>
+// ==========================================
+// 2. KICKHUB INTERACTIVE MOCKUP (Matched with Image)
+// ==========================================
+const KickHubMockup = () => {
+  const [cartCount, setCartCount] = useState(0);
+  const [selectedSize, setSelectedSize] = useState<number | null>(9);
+  const [isAdded, setIsAdded] = useState(false);
+  const [like, setLike] = useState(false);
 
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-on-surface">
-            Featured <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-fuchsia-500 to-cyan-400">Projects & Works</span>
-          </h2>
+  const handleAddToCart = () => {
+    setIsAdded(true);
+    setCartCount((prev) => prev + 1);
+    setTimeout(() => setIsAdded(false), 1500);
+  };
 
-          <p className="text-on-surface-variant max-w-2xl text-base md:text-lg leading-relaxed">
-            A curated showcase of applications built with modern web technologies, performance optimization, and refined UI design.
-          </p>
-
-          {/* Filter Categories */}
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-6">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 ${
-                  activeCategory === category
-                    ? "bg-purple-600 text-white shadow-lg shadow-purple-500/30 scale-105"
-                    : "bg-neutral-100 dark:bg-white/5 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-white/10 hover:border-purple-500/50 hover:text-purple-500"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
+  return (
+    <div className="w-full bg-[#111217] p-4 rounded-xl flex flex-col justify-between font-sans text-xs text-white select-none border border-white/5 shadow-2xl">
+      {/* Mock Header Navigation */}
+      <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/5">
+        <span className="font-extrabold tracking-wider text-[#a78bfa] text-sm">KICKHUB</span>
+        <div className="flex items-center gap-4 text-gray-400 text-[11px]">
+          <span className="hover:text-white cursor-pointer transition-colors">Shop</span>
+          <span className="hover:text-white cursor-pointer transition-colors">Catalog</span>
+          <div className="bg-white/5 px-2.5 py-1 rounded-full border border-white/10 flex items-center gap-1.5 text-white">
+            <span className="text-xs">🛒</span>
+            <span className="font-bold text-[11px]">{cartCount}</span>
           </div>
         </div>
-      </ScrollReveal>
+      </div>
 
-      {/* Projects Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-        <AnimatePresence mode="popLayout">
-          {filteredProjects.map((project) => (
-            <motion.div
-              key={project.id}
-              layout
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="glass-card rounded-[2rem] border border-neutral-200/80 dark:border-white/10 overflow-hidden flex flex-col justify-between group hover:border-purple-500/50 hover:shadow-[0_20px_40px_rgba(139,92,246,0.15)] transition-all duration-500"
-            >
-              <div>
-                {/* Browser Mockup Header & Image */}
-                <div className="relative overflow-hidden bg-neutral-900 aspect-[16/10]">
-                  {/* Browser Bar */}
-                  <div className="absolute top-0 left-0 right-0 z-20 px-4 py-2.5 bg-neutral-950/80 backdrop-blur-md border-b border-white/10 flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+      {/* Main Product Card Container */}
+      <div className="
+      relative
+      w-full
+      h-[420px]
+      rounded-xl
+      overflow-hidden
+      border border-white/10
+      bg-black
+      ">
+
+        <Image
+
+          src="/projects/Beige New Product Mockup Now Available Facebook Post (1).png"
+
+          alt="KICKHUB website mockup"
+
+          fill
+
+          className="
+          object-contain
+          transition-transform
+          duration-700
+          hover:scale-105
+          "
+
+        />
+
+
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 3. SMARTTRAVEL INTERACTIVE MOCKUP
+// ==========================================
+const SmartTravelMockup = () => {
+  const [activeDay, setActiveDay] = useState(1);
+  const [selectedNode, setSelectedNode] = useState<string | null>("Louvre Museum");
+
+  const travelPlan = [
+    {
+      day: 1,
+      nodes: [
+        { name: "Louvre Museum", time: "09:00 AM", icon: <FaCamera />, cost: "$17", desc: "Explore world-class art collections" },
+        { name: "Le Comptoir Bistro", time: "01:00 PM", icon: <FaUtensils />, cost: "$25", desc: "Authentic French cuisine lunch" }
+      ]
+    },
+    {
+      day: 2,
+      nodes: [
+        { name: "Eiffel Tower Tour", time: "10:30 AM", icon: <FaCamera />, cost: "$28", desc: "Panoramic views of Paris skyline" },
+        { name: "Seine River Cruise", time: "04:30 PM", icon: <FaPlane />, cost: "$15", desc: "Scenic river view at sunset" }
+      ]
+    }
+  ];
+
+  return (
+    <div className="w-full bg-[#111217] p-4 rounded-xl flex flex-col justify-between font-sans text-xs text-white select-none border border-white/5 shadow-2xl">
+      <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-2">
+        <div className="flex items-center gap-1.5">
+          <span className="text-cyan-400">✦</span>
+          <span className="font-bold tracking-tight text-white">SmartTravel AI</span>
+        </div>
+        <span className="text-[10px] px-2 py-0.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 rounded-full font-medium">
+          Paris Planner
+        </span>
+      </div>
+
+    <div className="
+      relative
+      w-full
+      h-[420px]
+      rounded-xl
+      overflow-hidden
+      border border-white/10
+      bg-black
+      ">
+
+
+        <Image
+
+          src="/projects/Beige New Product Mockup Now Available Facebook Post.png"
+
+          alt="SmartTravel AI Website Mockup"
+
+          fill
+
+          className="
+          object-contain
+          transition-all
+          duration-700
+          hover:scale-105
+          "
+
+        />
+
+
+      </div>
+
+    </div>
+  );
+};
+
+// ==========================================
+// 4. RENTNEST INTERACTIVE MOCKUP
+// ==========================================
+const RentNestMockup = () => {
+  const [favorite, setFavorite] = useState(false);
+  const [days, setDays] = useState(3);
+  const pricePerNight = 240;
+
+  return (
+    <div className="w-full bg-[#111217] p-4 rounded-xl flex flex-col justify-between font-sans text-xs text-white select-none border border-white/5 shadow-2xl">
+      <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-2">
+        <span className="font-bold tracking-tight text-purple-300">RentNest</span>
+        <div className="flex items-center gap-1.5 text-gray-400">
+          <FaMapMarkerAlt className="text-purple-400" />
+          <span className="text-[10px]">Rome, Italy</span>
+        </div>
+      </div>
+
+     
+    <div className="
+      relative
+      w-full
+      h-[420px]
+      rounded-xl
+      overflow-hidden
+      border border-white/10
+      bg-black
+      ">
+
+
+        <Image
+
+          src="/projects/Beige New Product Mockup Now Available Facebook Post (2).png"
+
+          alt="Rentnest"
+
+          fill
+
+          className="
+          object-contain
+          transition-all
+          duration-700
+          hover:scale-105
+          "
+
+        />
+
+
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// 5. MAIN PROJECTS SECTION COMPONENT
+// ==========================================
+const Projects = () => {
+  const projectList = [
+    {
+      id: "01",
+      title: "KICKHUB",
+      tagline: "Modern footwear e-commerce platform",
+      category: "Frontend Development",
+      tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+      problem:
+        "Traditional sneaker stores suffer from sluggish loading speeds during high-demand release drops, leading to high cart abandonment rates and poor checkout optimization.",
+      solution:
+        "Engineered a high-performance shopping engine utilizing Next.js Server Components, server-side caching, global client-side state hooks, and optimistic checkout updates to achieve lightning-fast sub-second loading states.",
+      contribution:
+        "Conceptualized and coded the entire user interface and user flows. Optimized key Web Vitals, reducing Cumulative Layout Shift (CLS) to 0.01 and increasing Lighthouse performance rating to 98/100.",
+      mockup: <KickHubMockup />,
+      link: "https://kickhub.dev",
+      github: "https://github.com/mollika123/kickhub",
+      glowColor: "rgba(168, 85, 247, 0.25)",
+      textColor: "text-[#a78bfa]"
+    },
+    {
+      id: "02",
+      title: "SmartTravel",
+      tagline: "AI-Powered Travel Itinerary Planner",
+      category: "Full Stack / AI Integration",
+      tags: ["React", "TypeScript", "Tailwind CSS", "Node.js", "MongoDB", "AI APIs"],
+      problem:
+        "Vacation planning is fragmented, requiring users to jump between weather channels, map directions, dining review platforms, and notepad apps to organize a single trip.",
+      solution:
+        "Created a unified dashboard that links maps, calendar schedules, weather checks, and travel nodes into a single reactive workspace powered by AI models.",
+      contribution:
+        "Designed and built the responsive React node scheduler. Integrated travel estimation APIs and coded the custom dashboard mapping grid utilizing interactive vector tracking.",
+      mockup: <SmartTravelMockup />,
+      link: "https://smarttravel.dev",
+      github: "https://github.com/mollika123/smarttravel",
+      glowColor: "rgba(6, 182, 212, 0.25)",
+      textColor: "text-cyan-400"
+    },
+    {
+      id: "03",
+      title: "RentNest",
+      tagline: "High-end luxury property rental engine",
+      category: "UI/UX & Web Apps",
+      tags: ["Next.js", "React", "TypeScript", "Firebase", "Tailwind CSS"],
+      problem:
+        "Vacation rental pages are often cluttered with advertisements and complex checkout flows that distract clients, causing them to bounce before completing booking actions.",
+      solution:
+        "Developed a premium, high-conversion minimal listing engine featuring glassmorphic cards, simple calendar calculators, and clear visual rating indices.",
+      contribution:
+        "Drafted the pixel-perfect styling guidelines in Tailwind CSS. Configured real-time property sync databases using Firebase and animated layout transitions using Framer Motion.",
+      mockup: <RentNestMockup />,
+      link: "https://rentnest.dev",
+      github: "https://github.com/mollika123/rentnest",
+      glowColor: "rgba(216, 180, 254, 0.25)",
+      textColor: "text-purple-300"
+    }
+  ];
+
+  return (
+    <section className="py-24 relative overflow-hidden bg-[#0a0a0f] text-white" id="projects">
+      {/* Background ambient light */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[650px] h-[400px] bg-purple-600/10 rounded-full blur-[160px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+        {/* Section Header */}
+        <ScrollReveal>
+          <div className="flex flex-col items-center text-center mb-20 space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold tracking-wider uppercase">
+              <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+              CASE STUDIES
+            </div>
+
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">
+              Featured <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400">Projects & Works</span>
+            </h2>
+
+            <p className="text-gray-400 max-w-2xl text-sm md:text-base leading-relaxed">
+              Explore alternating case studies demonstrating clean system design, visual precision, and user-centric flows.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        {/* Project List */}
+        <div className="space-y-32">
+          {projectList.map((project, index) => {
+            const isEven = index % 2 === 0;
+
+            return (
+              <div
+                key={project.id}
+                className={`flex flex-col lg:flex-row gap-12 lg:gap-16 items-center ${
+                  isEven ? "" : "lg:flex-row-reverse"
+                }`}
+              >
+                {/* 1. Project Info Details */}
+                <div className="flex-1 space-y-5 text-left">
+                  <ScrollReveal delay={0.1}>
+                    <div className="flex items-center gap-2.5">
+                      <span className="font-mono text-xs font-bold text-gray-500">{project.id} </span>
+                      <span className={`text-xs font-bold uppercase tracking-wider ${project.textColor}`}>
+                        {project.category}
+                      </span>
                     </div>
-                    <span className="text-[10px] font-mono text-neutral-400 truncate max-w-[150px]">
-                      {project.title.toLowerCase()}.vercell.app
-                    </span>
-                    <span className="text-xs font-mono font-bold text-purple-400">
-                      {project.id}
-                    </span>
-                  </div>
 
-                  {/* Project Image */}
-                  <img
-                    alt={project.title}
-                    src={project.image}
-                    className="w-full h-full object-cover object-top pt-8 transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-
-                  {/* Hover Overlay with Live Demo & Github Buttons */}
-                  <div className="absolute inset-0 pt-8 bg-neutral-950/70 opacity-0 group-hover:opacity-100 backdrop-blur-sm transition-opacity duration-300 flex items-center justify-center gap-4 z-30">
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-purple-600 text-white font-semibold text-xs shadow-lg shadow-purple-500/40 hover:bg-purple-500 hover:scale-105 transition-all"
-                    >
-                      <FiExternalLink className="w-4 h-4" />
-                      Live Demo
-                    </a>
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white/10 text-white border border-white/20 font-semibold text-xs hover:bg-white/20 hover:scale-105 transition-all"
-                    >
-                      <FiGithub className="w-4 h-4" />
-                      Code Repo
-                    </a>
-                  </div>
-                </div>
-
-                {/* Content Area */}
-                <div className="p-8 space-y-5">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
-                      {project.category}
-                    </span>
-                    <span className="text-xs font-mono text-neutral-600 dark:text-neutral-400">
-                      Project {project.id}
-                    </span>
-                  </div>
-
-                  <div>
-                    <h3 className="text-2xl font-bold text-on-surface group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                    <h3 className="text-2xl md:text-4xl font-extrabold text-white mt-1">
                       {project.title}
                     </h3>
-                    <p className="text-xs font-medium text-purple-600/80 dark:text-purple-400/80 mt-1">
-                      {project.subtitle}
+                    <p className="text-sm font-medium text-gray-400 italic mt-0.5">
+                      {project.tagline}
                     </p>
-                  </div>
 
-                  <p className="text-on-surface-variant text-sm leading-relaxed">
-                    {project.desc}
-                  </p>
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-[10px] font-mono font-medium px-2.5 py-1 rounded bg-white/5 border border-white/10 text-gray-300"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
 
-                  {/* Tech Tags */}
-                  <div className="flex flex-wrap gap-1.5 pt-2">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[11px] font-medium px-2.5 py-1 rounded-md bg-neutral-100 dark:bg-white/5 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/10"
+                    <div className="space-y-3 mt-6">
+                      <div className="border-l-2 border-purple-500/30 pl-4 py-0.5">
+                        <h4 className="text-[11px] font-bold uppercase tracking-wide text-gray-400">The Challenge</h4>
+                        <p className="text-xs md:text-sm text-gray-300 mt-0.5 leading-relaxed">
+                          {project.problem}
+                        </p>
+                      </div>
+
+                      <div className="border-l-2 border-cyan-500/30 pl-4 py-0.5">
+                        <h4 className="text-[11px] font-bold uppercase tracking-wide text-gray-400">The Solution</h4>
+                        <p className="text-xs md:text-sm text-gray-300 mt-0.5 leading-relaxed">
+                          {project.solution}
+                        </p>
+                      </div>
+
+                      <div className="border-l-2 border-purple-400/30 pl-4 py-0.5">
+                        <h4 className="text-[11px] font-bold uppercase tracking-wide text-gray-400">My Contribution</h4>
+                        <p className="text-xs md:text-sm text-gray-300 mt-0.5 leading-relaxed">
+                          {project.contribution}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 pt-4">
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 hover:opacity-90 text-white font-semibold text-xs transition-all flex items-center gap-1.5 shadow-lg shadow-purple-500/20"
                       >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                        <FiExternalLink className="w-3.5 h-3.5" />
+                        Live Demo
+                      </a>
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-5 py-2.5 rounded-lg border border-white/10 hover:border-white/20 bg-white/5 text-white font-semibold text-xs hover:bg-white/10 transition-all flex items-center gap-1.5"
+                      >
+                        <FiGithub className="w-3.5 h-3.5" />
+                        Source Code
+                      </a>
+                    </div>
+                  </ScrollReveal>
+                </div>
+
+                {/* 2. Interactive Browser Mockup Wrapper */}
+                <div className="flex-1 w-full max-w-[520px]">
+                  <ScrollReveal delay={0.2}>
+                    <TiltCard className="w-full">
+                      {/* Outer Browser Mockup Window Frame (Matched with Image) */}
+                      <div
+                        className="w-full rounded-2xl border border-white/20 overflow-hidden shadow-2xl bg-[#0d0e14] relative group"
+                        style={{
+                          boxShadow: `0 25px 60px -15px ${project.glowColor}`,
+                        }}
+                      >
+                        {/* Browser Window Header Bar */}
+                        <div className="flex items-center justify-between px-4 py-3 bg-[#13141f] border-b border-white/10">
+                          {/* Traffic light dots */}
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
+                            <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+                            <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
+                          </div>
+
+                          {/* Address Bar Pill */}
+                          <div className="bg-black/60 border border-white/10 text-[10px] px-8 py-1 rounded-full text-gray-400 font-mono tracking-tight flex items-center gap-1.5">
+                            <FiGlobe className="text-gray-500 text-[11px]" />
+                            {project.title.toLowerCase()}.dev
+                          </div>
+
+                          {/* Index Badge */}
+                          <span className="text-[10px] font-mono font-bold text-gray-600">
+                            {project.id}
+                          </span>
+                        </div>
+
+                        {/* Interactive Content Area */}
+                        <div className="p-3 bg-black/50 min-h-[380px] flex items-center justify-center relative">
+                          {project.mockup}
+                        </div>
+                      </div>
+                    </TiltCard>
+                  </ScrollReveal>
                 </div>
               </div>
-
-              {/* Card Footer Action Links */}
-              <div className="px-8 pb-8 pt-4 border-t border-neutral-200/60 dark:border-white/10 flex items-center justify-between mt-auto">
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs font-bold text-purple-600 dark:text-purple-400 inline-flex items-center gap-1.5 hover:gap-3 transition-all"
-                >
-                  View Live Site <FiArrowRight className="w-3.5 h-3.5" />
-                </a>
-
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs font-medium text-on-surface-variant hover:text-on-surface inline-flex items-center gap-1 transition-colors"
-                >
-                  <FiCode className="w-3.5 h-3.5" /> Source
-                </a>
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
