@@ -133,13 +133,15 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="flex flex-wrap gap-4 pt-4"
         >
-          <a
-            href="#projects"
-            className="group px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary to-accent hover:opacity-90 text-white font-medium text-sm transition-all duration-300 flex items-center gap-2 shadow-[0_0_25px_rgba(139,92,246,0.35)]"
-          >
-            View Projects
-            <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
-          </a>
+     <a
+  href="/Mollika_Akter_Frontend_Developer_CV.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="group px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary to-accent hover:opacity-90 text-white font-medium text-sm transition-all duration-300 flex items-center gap-2 shadow-[0_0_25px_rgba(139,92,246,0.35)]"
+>
+  Resume
+  <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
+</a>
           <a
             href="#contact"
             className="px-6 py-3.5 rounded-xl border border-outline hover:border-primary/50 bg-foreground/[0.02] backdrop-blur text-foreground font-medium text-sm transition-all duration-300"
